@@ -1,0 +1,859 @@
+<html><head>
+<title>Untitled Diagram</title>
+<meta charset="utf-8">
+<style>
+body { background-color: black !important; }
+.mxgraph { background-color: black !important; }
+svg { background-color: black !important; }
+
+.info-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  background-color: #1e1e1e;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  padding: 0;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translate(-50%, -48%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px;
+  border-radius: 6px 6px 0 0;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.modal-body {
+  padding: 20px;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.modal-body h3 {
+  margin-top: 0;
+  color: #4CAF50;
+  margin-bottom: 10px;
+}
+
+.modal-body p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.modal-body code {
+  background-color: #2d2d2d;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #87CEEB;
+  font-family: 'Courier New', monospace;
+}
+
+.modal-body pre {
+  background-color: #2d2d2d;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+  border-left: 3px solid #4CAF50;
+}
+
+.tutorial-links {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.tutorial-link {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 6px;
+  background-color: #2d2d2d;
+  border: 1px solid #4CAF50;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.tutorial-link:hover {
+  background-color: #3a3a3a;
+  border-color: #76d275;
+}
+
+.modal-checklist {
+  margin: 10px 0 0 0;
+  padding-left: 18px;
+  color: #444;
+}
+
+.modal-checklist li {
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+
+.modal-overlay.active,
+.info-modal.active {
+  display: block;
+}
+
+.clickable-element {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.clickable-element:hover {
+  opacity: 0.8;
+}
+
+.click-overlay {
+  position: absolute;
+  cursor: pointer;
+  background-color: transparent;
+  border: 2px dashed rgba(76, 175, 80, 0.3);
+  transition: background-color 0.2s, border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.click-overlay:hover {
+  border-color: rgba(76, 175, 80, 0.8);
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+#diagram-container {
+  position: relative;
+  display: inline-block;
+}
+</style>
+<style type="text/css"></style><style type="text/css">.geDarkMode img {
+    filter: invert(1);
+}
+div.mxTooltip {
+    box-shadow: 3px 3px 12px light-dark(#c0c0c0, transparent);
+    background: light-dark(#ffffcc, #121212);
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 8pt;
+    position: absolute;
+    cursor: default;
+    padding: 4px;
+    color: black;
+}
+td.mxPopupMenuIcon div {
+    width: 16px;
+    height: 16px;
+}
+div.mxPopupMenu {
+    box-shadow: 2px 2px 3px light-dark(#d5d5d5, transparent);
+    background: white;
+    position: absolute;
+    border: 3px solid #e7e7e7;
+    padding: 3px;
+}
+table.mxPopupMenu {
+    border-collapse: collapse;
+    margin: 0px;
+}
+td.mxPopupMenuItem {
+    padding: 7px 30px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 10pt;
+}
+td.mxPopupMenuIcon {
+    background-color: light-dark(#ffffff, #121212);
+    padding: 0px;
+}
+tr.mxPopupMenuItemHover {
+    background-color: #eeeeee;
+    color: black;
+}
+table.mxPopupMenu hr {
+    color: #cccccc;
+    background-color: #cccccc;
+    border: none;
+    height: 1px;
+}
+table.mxPopupMenu tr {
+    font-size: 4pt;
+}
+.geDialog, .geDialog table {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 10pt;
+    border: none;
+    margin: 0px;
+}
+.geDialog {
+    position: fixed;
+    background: light-dark(#ffffff, #121212);
+	 color: light-dark(#3f3f3f, #c0c0c0);
+    box-shadow: 0px 0px 2px 2px light-dark(#d5d5d5, transparent);
+    border: 1px solid light-dark(#dadada, #565656);
+    overflow: hidden;
+    padding: 30px;
+    left: 50%;
+    top: 50%;
+    max-height: 100%;
+    max-width: 100%;
+	 box-sizing: border-box;
+    transform: translate(-50%, -50%);
+	 z-index: 1001;
+}
+.geBackground {
+    background-color: light-dark(#ffffff, #121212);
+	 position: fixed;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    opacity: 0.9;
+	 z-index: 1000;
+}
+.geDialogTitle {
+    box-sizing: border-box;
+    white-space: nowrap;
+    background: light-dark(#f1f3f4, #121212);
+    border-bottom: 1px solid rgb(192, 192, 192);
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    color: rgb(35, 86, 149);
+}
+.geDialogFooter {
+    background: light-dark(#f1f3f4, #121212);
+    white-space: nowrap;
+    text-align: right;
+    box-sizing: border-box;
+    border-top: 1px solid #e5e5e5;
+    color: darkGray;
+}
+.geHelpIcon {
+    width: 16px;
+    margin: 0 4px;
+    vertical-align: text-bottom;
+}
+.geBtn, .mxWindow .geBtn {
+    background-color: light-dark(#eeeeee, #1b1d1e);
+    border: 1px solid light-dark(#d8d8d8, #333333);
+    color: light-dark(#3f3f3f, #c0c0c0);
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 4px;
+    height: 30px;
+    margin: 0 0 0 8px;
+    min-width: 72px;
+    outline: 0;
+    padding: 0 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.geBtn:hover:not(.gePrimaryBtn), .geBtn:focus {
+    border: 1px solid light-dark(#c6c6c6, #333333);
+    background: light-dark(#dadada, #333333);
+}
+.geBtn:disabled {
+    opacity: .5;
+}
+.gePrimaryBtn {
+    background: linear-gradient(light-dark(#4d90fe, #003555) 0px, light-dark(#4787ed, #003555) 100%);
+    border: 1px solid light-dark(#3079ed, transparent);
+    color: light-dark(#ffffff, #c0c0c0);
+}
+.gePrimaryBtn:hover:not([disabled]) {
+    background: linear-gradient(light-dark(#4d90fe, #004a77) 0px, light-dark(#357ae8, #004a77) 100%);
+    border: 1px solid light-dark(#2f5bb7, transparent);
+}
+.geBtn:disabled {
+    opacity: .5;
+}</style><script src="https://viewer.diagrams.net/math4/es5/core.js" charset="UTF-8"></script><script src="https://viewer.diagrams.net/math4/es5/output/svg.js" charset="UTF-8"></script><script src="https://viewer.diagrams.net/math4/es5/input/tex.js" charset="UTF-8"></script><script src="https://viewer.diagrams.net/math4/es5/input/asciimath.js" charset="UTF-8"></script><script src="https://viewer.diagrams.net/math4/es5/ui/safe.js" charset="UTF-8"></script><script src="https://viewer.diagrams.net/math4/es5/fonts/mathjax-tex-font/svg.js" charset="UTF-8"></script></head>
+<body style="background-color: black;"><div id="diagram-container"><div class="mxgraph geDarkMode" style="max-width: 100%; border: 1px solid transparent; background-color: black; position: relative; touch-action: none; color-scheme: dark; cursor: pointer; overflow: hidden; margin-top: 26px; width: 795px; height: 1635px;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;dark-mode&quot;:&quot;auto&quot;,&quot;toolbar&quot;:&quot;zoom layers tags lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;Electron\&quot; agent=\&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.5 Chrome/138.0.7204.251 Electron/37.6.1 Safari/537.36\&quot; version=\&quot;28.2.5\&quot;&gt;\n  &lt;diagram name=\&quot;Page-1\&quot; id=\&quot;nsJENHIhnZvXhY1ea-82\&quot;&gt;\n    &lt;mxGraphModel dx=\&quot;1151\&quot; dy=\&quot;759\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;850\&quot; pageHeight=\&quot;1100\&quot; background=\&quot;#000000\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n      &lt;root&gt;\n        &lt;mxCell id=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-8\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-1\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-7\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-1\&quot; value=\&quot;&amp;lt;div&amp;gt;&amp;lt;b&amp;gt;Server baseline&amp;lt;/b&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;b&amp;gt;PHP, Composer, Node, DB, Redis, Nginx&amp;lt;/b&amp;gt;&amp;lt;/div&amp;gt;\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;align=left;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;250\&quot; y=\&quot;200\&quot; width=\&quot;320\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-3\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-2\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-1\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-2\&quot; value=\&quot;Laravel&amp;lt;div&amp;gt;production roadmap&amp;lt;/div&amp;gt;\&quot; style=\&quot;rhombus;whiteSpace=wrap;html=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;360\&quot; y=\&quot;20\&quot; width=\&quot;100\&quot; height=\&quot;100\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-10\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-7\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-9\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-7\&quot; value=\&quot;&amp;lt;div&amp;gt;&amp;lt;b&amp;gt;Clone release repository&amp;lt;/b&amp;gt;&amp;lt;/div&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;align=left;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;320\&quot; y=\&quot;350\&quot; width=\&quot;180\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-12\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-9\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-11\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-9\&quot; value=\&quot;&amp;lt;b&amp;gt;composer install --no-dev --optimize-autoloader&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;align=left;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;330\&quot; y=\&quot;508\&quot; width=\&quot;160\&quot; height=\&quot;85\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-14\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-11\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-13\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-11\&quot; value=\&quot;&amp;lt;b&amp;gt;npm ci&amp;lt;br&amp;gt;npm run build&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;align=left;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;330\&quot; y=\&quot;650\&quot; width=\&quot;240\&quot; height=\&quot;85\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-16\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-13\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-15\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-13\&quot; value=\&quot;&amp;lt;b&amp;gt;Set secrets and APP_KEY&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;align=left;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;350\&quot; y=\&quot;790\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-18\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-15\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-17\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-15\&quot; value=\&quot;&amp;lt;b&amp;gt;php artisan config:cache&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;align=left;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;325\&quot; y=\&quot;930\&quot; width=\&quot;170\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-20\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-17\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-19\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-17\&quot; value=\&quot;&amp;lt;div&amp;gt;&amp;lt;b&amp;gt;Run tests and code checks&amp;lt;/b&amp;gt;&amp;lt;/div&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;align=left;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;305\&quot; y=\&quot;1060\&quot; width=\&quot;210\&quot; height=\&quot;100\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-21\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-19\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-17\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;mxPoint x=\&quot;550\&quot; y=\&quot;1110\&quot; as=\&quot;targetPoint\&quot; /&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-31\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-19\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-28\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-19\&quot; value=\&quot;&amp;lt;b&amp;gt;php artisan migrate --force&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;align=left;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;305\&quot; y=\&quot;1240\&quot; width=\&quot;195\&quot; height=\&quot;100\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-27\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-26\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-7\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-26\&quot; value=\&quot;&amp;lt;b&amp;gt;Plan release branch&amp;lt;/b&amp;gt;\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;80\&quot; y=\&quot;365\&quot; width=\&quot;150\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-34\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-28\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-33\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-28\&quot; value=\&quot;&amp;lt;b style=&amp;quot;text-align: left;&amp;quot;&amp;gt;Nginx + PHP-FPM live&amp;lt;/b&amp;gt;\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;295\&quot; y=\&quot;1420\&quot; width=\&quot;215\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-30\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.46;entryY=0.983;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-33\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-26\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;mxPoint x=\&quot;220\&quot; y=\&quot;1520\&quot; as=\&quot;sourcePoint\&quot; /&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-36\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-33\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-35\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;Array as=\&quot;points\&quot;&gt;\n              &lt;mxPoint x=\&quot;560\&quot; y=\&quot;1590\&quot; /&gt;\n              &lt;mxPoint x=\&quot;560\&quot; y=\&quot;1590\&quot; /&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-33\&quot; value=\&quot;&amp;lt;b&amp;gt;Queues and scheduler&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;283.75\&quot; y=\&quot;1560\&quot; width=\&quot;237.5\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-40\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-35\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-39\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-35\&quot; value=\&quot;&amp;lt;b&amp;gt;&amp;lt;font style=&amp;quot;color: light-dark(rgb(0, 0, 0), rgb(255, 0, 0));&amp;quot;&amp;gt;Rollback plan&amp;lt;/font&amp;gt;&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;600\&quot; y=\&quot;1560\&quot; width=\&quot;180\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-42\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-39\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-41\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-39\&quot; value=\&quot;Health checks\&quot; style=\&quot;whiteSpace=wrap;html=1;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;610\&quot; y=\&quot;1470\&quot; width=\&quot;160\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-41\&quot; value=\&quot;Monitor logs\&quot; style=\&quot;whiteSpace=wrap;html=1;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;625\&quot; y=\&quot;1330\&quot; width=\&quot;160\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-48\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-43\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-47\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-43\&quot; value=\&quot;&amp;lt;b&amp;gt;&amp;lt;font style=&amp;quot;color: light-dark(rgb(0, 0, 0), rgb(0, 0, 255));&amp;quot;&amp;gt;Zero-downtime release&amp;lt;/font&amp;gt;&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;align=left;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;620\&quot; y=\&quot;1160\&quot; width=\&quot;170\&quot; height=\&quot;85\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-50\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-47\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-49\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-52\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-47\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-49\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-47\&quot; value=\&quot;&amp;lt;b&amp;gt;&amp;lt;font style=&amp;quot;color: light-dark(rgb(0, 0, 0), rgb(255, 0, 0));&amp;quot;&amp;gt;cd&amp;lt;/font&amp;gt;&amp;amp;nbsp;release&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;align=left;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;620\&quot; y=\&quot;990\&quot; width=\&quot;170\&quot; height=\&quot;85\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-49\&quot; value=\&quot;&amp;lt;b&amp;gt;npm ci&amp;lt;br&amp;gt;npm run build&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;align=center;rounded=1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;610\&quot; y=\&quot;870\&quot; width=\&quot;190\&quot; height=\&quot;85\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-51\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-49\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-55\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;mxPoint x=\&quot;530\&quot; y=\&quot;1450\&quot; as=\&quot;targetPoint\&quot; /&gt;\n            &lt;Array as=\&quot;points\&quot;&gt;\n              &lt;mxPoint x=\&quot;610\&quot; y=\&quot;910\&quot; /&gt;\n              &lt;mxPoint x=\&quot;570\&quot; y=\&quot;910\&quot; /&gt;\n              &lt;mxPoint x=\&quot;570\&quot; y=\&quot;1450\&quot; /&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-53\&quot; value=\&quot;&amp;lt;i&amp;gt;&amp;lt;b&amp;gt;PRODUCTION LARAVEL ROADMAP&amp;lt;/b&amp;gt;&amp;lt;/i&amp;gt;\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;30\&quot; y=\&quot;10\&quot; width=\&quot;160\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-54\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.133;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.992;exitY=0.644;exitDx=0;exitDy=0;exitPerimeter=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ZuYxcWRNr98eA5IfTEoE-55\&quot; target=\&quot;ZuYxcWRNr98eA5IfTEoE-35\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;Array as=\&quot;points\&quot;&gt;\n              &lt;mxPoint x=\&quot;525\&quot; y=\&quot;1480\&quot; /&gt;\n              &lt;mxPoint x=\&quot;560\&quot; y=\&quot;1480\&quot; /&gt;\n              &lt;mxPoint x=\&quot;560\&quot; y=\&quot;1568\&quot; /&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ZuYxcWRNr98eA5IfTEoE-55\&quot; value=\&quot;\&quot; style=\&quot;ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#CC0066;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;500\&quot; y=\&quot;1437.5\&quot; width=\&quot;25\&quot; height=\&quot;25\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n      &lt;/root&gt;\n    &lt;/mxGraphModel&gt;\n  &lt;/diagram&gt;\n&lt;/mxfile&gt;\n&quot;}"><svg style="left: 0px; top: 0px; width: 100%; height: 100%; display: block; min-width: 795px; min-height: 1635px; background-image: none; background-color: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));"><g transformOrigin="0 0" transform="scale(1,1)translate(-22,-2)"><g></g><g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 410 290 L 410 343.63" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 410 290 L 410 343.63" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 410 348.88 L 406.5 341.88 L 410 343.63 L 413.5 341.88 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="250" y="200" width="320" height="90" rx="13.5" ry="13.5" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 318px; height: 1px; padding-top: 245px; margin-left: 252px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><div><b>Server baseline</b></div><div><b>PHP, Composer, Node, DB, Redis, Nginx</b></div></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 410 120 L 410 193.63" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 410 120 L 410 193.63" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 410 198.88 L 406.5 191.88 L 410 193.63 L 413.5 191.88 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 410 20 L 460 70 L 410 120 L 360 70 Z" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 98px; height: 1px; padding-top: 70px; margin-left: 361px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Laravel<div>production roadmap</div></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 410 440 L 410 501.63" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 410 440 L 410 501.63" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 410 506.88 L 406.5 499.88 L 410 501.63 L 413.5 499.88 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="320" y="350" width="180" height="90" rx="13.5" ry="13.5" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 178px; height: 1px; padding-top: 395px; margin-left: 322px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><div><b>Clone release repository</b></div></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 410 593 L 410 621.5 L 450 621.5 L 450 643.63" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 410 593 L 410 621.5 L 450 621.5 L 450 643.63" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 450 648.88 L 446.5 641.88 L 450 643.63 L 453.5 641.88 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="330" y="508" width="160" height="85" rx="12.75" ry="12.75" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 158px; height: 1px; padding-top: 551px; margin-left: 332px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b>composer install --no-dev --optimize-autoloader</b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 450 735 L 450 762.5 L 410 762.5 L 410 783.63" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 450 735 L 450 762.5 L 410 762.5 L 410 783.63" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 410 788.88 L 406.5 781.88 L 410 783.63 L 413.5 781.88 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="330" y="650" width="240" height="85" rx="12.75" ry="12.75" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 238px; height: 1px; padding-top: 693px; margin-left: 332px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b>npm ci<br>npm run build</b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 410 850 L 410 923.63" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 410 850 L 410 923.63" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 410 928.88 L 406.5 921.88 L 410 923.63 L 413.5 921.88 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="350" y="790" width="120" height="60" rx="9" ry="9" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 118px; height: 1px; padding-top: 820px; margin-left: 352px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b>Set secrets and APP_KEY</b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 410 990 L 410 1053.63" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 410 990 L 410 1053.63" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 410 1058.88 L 406.5 1051.88 L 410 1053.63 L 413.5 1051.88 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="325" y="930" width="170" height="60" rx="9" ry="9" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 168px; height: 1px; padding-top: 960px; margin-left: 327px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b>php artisan config:cache</b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 410 1160 L 410 1200 L 402.5 1200 L 402.5 1233.63" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 410 1160 L 410 1200 L 402.5 1200 L 402.5 1233.63" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 402.5 1238.88 L 399 1231.88 L 402.5 1233.63 L 406 1231.88 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="305" y="1060" width="210" height="100" rx="15" ry="15" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 208px; height: 1px; padding-top: 1110px; margin-left: 307px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><div><b>Run tests and code checks</b></div></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 402.5 1240 L 402.5 1200 L 410 1200 L 410 1166.37" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 402.5 1240 L 402.5 1200 L 410 1200 L 410 1166.37" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 410 1161.12 L 413.5 1168.12 L 410 1166.37 L 406.5 1168.12 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 402.5 1340 L 402.5 1413.63" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 402.5 1340 L 402.5 1413.63" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 402.5 1418.88 L 399 1411.88 L 402.5 1413.63 L 406 1411.88 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="305" y="1240" width="195" height="100" rx="15" ry="15" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 193px; height: 1px; padding-top: 1290px; margin-left: 307px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b>php artisan migrate --force</b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 230 395 L 313.63 395" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 230 395 L 313.63 395" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 318.88 395 L 311.88 398.5 L 313.63 395 L 311.88 391.5 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="80" y="365" width="150" height="60" rx="9" ry="9" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 148px; height: 1px; padding-top: 395px; margin-left: 81px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b>Plan release branch</b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 402.5 1480 L 402.5 1520 L 402.58 1553.63" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 402.5 1480 L 402.5 1520 L 402.58 1553.63" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 402.6 1558.88 L 399.08 1551.89 L 402.58 1553.63 L 406.08 1551.87 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="295" y="1420" width="215" height="60" rx="9" ry="9" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 213px; height: 1px; padding-top: 1450px; margin-left: 296px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b style="text-align: left;">Nginx + PHP-FPM live</b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 283.75 1590 L 149 1590 L 149 430.35" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 283.75 1590 L 149 1590 L 149 430.35" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 149 425.1 L 152.5 432.1 L 149 430.35 L 145.5 432.1 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 521.25 1590 L 560 1590 L 593.63 1590" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 521.25 1590 L 560 1590 L 593.63 1590" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 598.88 1590 L 591.88 1593.5 L 593.63 1590 L 591.88 1586.5 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="283.75" y="1560" width="237.5" height="60" rx="9" ry="9" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 236px; height: 1px; padding-top: 1590px; margin-left: 285px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b>Queues and scheduler</b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 690 1560 L 690 1540 L 690 1550 L 690 1536.37" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 690 1560 L 690 1540 L 690 1550 L 690 1536.37" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 690 1531.12 L 693.5 1538.12 L 690 1536.37 L 686.5 1538.12 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="600" y="1560" width="180" height="60" rx="9" ry="9" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 178px; height: 1px; padding-top: 1590px; margin-left: 601px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b><font style="color: light-dark(rgb(0, 0, 0), rgb(255, 0, 0));">Rollback plan</font></b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 690 1470 L 690 1430 L 705 1430 L 705 1396.37" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 690 1470 L 690 1430 L 705 1430 L 705 1396.37" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 705 1391.12 L 708.5 1398.12 L 705 1396.37 L 701.5 1398.12 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="610" y="1470" width="160" height="60" rx="9" ry="9" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 1500px; margin-left: 611px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Health checks</div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="625" y="1330" width="160" height="60" rx="9" ry="9" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 1360px; margin-left: 626px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Monitor logs</div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 705 1160 L 705 1081.37" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 705 1160 L 705 1081.37" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 705 1076.12 L 708.5 1083.12 L 705 1081.37 L 701.5 1083.12 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="620" y="1160" width="170" height="85" rx="12.75" ry="12.75" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 168px; height: 1px; padding-top: 1203px; margin-left: 622px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b><font style="color: light-dark(rgb(0, 0, 0), rgb(0, 0, 255));">Zero-downtime release</font></b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 705 990 L 705 970 L 705 975 L 705 961.37" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 705 990 L 705 970 L 705 975 L 705 961.37" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 705 956.12 L 708.5 963.12 L 705 961.37 L 701.5 963.12 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 705 990 L 705 970 L 705 975 L 705 961.37" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 705 990 L 705 970 L 705 975 L 705 961.37" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 705 956.12 L 708.5 963.12 L 705 961.37 L 701.5 963.12 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="620" y="990" width="170" height="85" rx="12.75" ry="12.75" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 168px; height: 1px; padding-top: 1033px; margin-left: 622px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b><font style="color: light-dark(rgb(0, 0, 0), rgb(255, 0, 0));">cd</font>&nbsp;release</b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="610" y="870" width="190" height="85" rx="12.75" ry="12.75" fill="#ffffff" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 188px; height: 1px; padding-top: 913px; margin-left: 611px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><b>npm ci<br>npm run build</b></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 610 912.5 L 610 910 L 570 910 L 570 1450 L 531.37 1450" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 610 912.5 L 610 910 L 570 910 L 570 1450 L 531.37 1450" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 526.12 1450 L 533.12 1446.5 L 531.37 1450 L 533.12 1453.5 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><rect x="30" y="10" width="160" height="30" fill="none" stroke="white" pointer-events="stroke" visibility="hidden" stroke-width="9"></rect><rect x="30" y="10" width="160" height="30" fill="none" stroke="none" pointer-events="all"></rect></g><g style=""><g><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%"><div style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 25px; margin-left: 31px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><i><b>PRODUCTION LARAVEL ROADMAP</b></i></div></div></div></foreignObject></g></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><path d="M 524.8 1453.6 L 524.8 1480 L 560 1480 L 560 1568 L 593.63 1567.98" fill="none" stroke="white" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke" visibility="hidden" stroke-width="9"></path><path d="M 524.8 1453.6 L 524.8 1480 L 560 1480 L 560 1568 L 593.63 1567.98" fill="none" stroke="#000000" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke-miterlimit="10" pointer-events="stroke"></path><path d="M 598.88 1567.98 L 591.88 1571.48 L 593.63 1567.98 L 591.88 1564.48 Z" fill="#000000" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path></g><g style="visibility: visible;" transform="translate(0.5,0.5)"><ellipse cx="512.5" cy="1450" rx="12.5" ry="12.5" fill="#cc0066" style="fill: light-dark(rgb(204, 0, 102), rgb(255, 150, 238)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));" stroke="#000000" pointer-events="all"></ellipse></g></g><g></g><g></g></g></svg></div>
+<div class="click-overlay" style="position: absolute; left: 340px; top: 43px; width: 100px; height: 100px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-2" title="Click for Laravel production docs"></div><div class="click-overlay" style="position: absolute; left: 229px; top: 224px; width: 320px; height: 90px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-1" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 300px; top: 373px; width: 180px; height: 90px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-7" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 310px; top: 531px; width: 160px; height: 85px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-9" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 310px; top: 673px; width: 240px; height: 85px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-11" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 330px; top: 813px; width: 120px; height: 60px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-13" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 305px; top: 953px; width: 170px; height: 60px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-15" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 285px; top: 1083px; width: 210px; height: 100px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-17" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 285px; top: 1263px; width: 195px; height: 100px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-19" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 275px; top: 1443px; width: 215px; height: 60px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-28" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 263.75px; top: 1583px; width: 237.5px; height: 60px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-33" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 605px; top: 1353px; width: 160px; height: 60px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-41" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 60px; top: 388px; width: 150px; height: 60px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-26" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 580px; top: 1583px; width: 180px; height: 60px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-35" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 590px; top: 1493px; width: 160px; height: 60px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-39" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 600px; top: 1183px; width: 170px; height: 85px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-43" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 600px; top: 1013px; width: 170px; height: 85px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-47" title="Click for more information"></div><div class="click-overlay" style="position: absolute; left: 590px; top: 893px; width: 190px; height: 85px; pointer-events: auto; z-index: 100;" data-element-id="ZuYxcWRNr98eA5IfTEoE-49" title="Click for more information"></div></div>
+<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script><script type="text/javascript" src="https://viewer.diagrams.net/math4/es5/startup.js"></script>
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<!-- Information Modals -->
+<div class="info-modal" id="modal-1">
+  <div class="modal-header">
+    <span>Production Server Baseline</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Prepare Production Host</h3>
+    <p><strong>Commands:</strong></p>
+    <pre>sudo apt update
+sudo apt install php php-fpm php-cli php-mbstring php-xml php-curl php-zip unzip curl composer nodejs npm nginx redis-server -y</pre>
+    <p><strong>Description:</strong> Prepare the host with PHP-FPM, Composer, Node.js, Nginx, Redis, and the required PHP extensions.</p>
+    <p><strong>Why needed:</strong> Production Laravel needs a stable runtime, web server, cache/queue backend, and locked system dependencies before releases are deployed.</p>
+    <ul class="modal-checklist">
+      <li>Confirm PHP version, extensions, time zone, memory limits, and upload limits.</li>
+      <li>Create a deploy user instead of deploying as root.</li>
+      <li>Keep storage and bootstrap/cache writable by the web server user.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-2">
+  <div class="modal-header">
+    <span>Release Source</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Pull Approved Release</h3>
+    <p><strong>Commands:</strong></p>
+    <pre>Clone release repository
+cd release</pre>
+    <p><strong>Description:</strong> Deploy from a reviewed branch, tag, or CI artifact instead of editing files directly on the server.</p>
+    <p><strong>Why needed:</strong> Production releases must be traceable, repeatable, and easy to roll back.</p>
+    <ul class="modal-checklist">
+      <li>Deploy a Git tag, release branch, or CI artifact with a known commit SHA.</li>
+      <li>Keep a releases directory and a current symlink for clean switching.</li>
+      <li>Never hot-edit production files outside the release process.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-3">
+  <div class="modal-header">
+    <span>Optimized PHP Dependencies</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Install Runtime Packages</h3>
+    <p><strong>Command:</strong></p>
+    <pre>composer install --no-dev --optimize-autoloader</pre>
+    <p><strong>Description:</strong> Installs only production Composer packages and builds the optimized autoloader.</p>
+    <p><strong>Why needed:</strong> Removes development packages from the server and improves class loading performance.</p>
+    <p><strong>Note:</strong> Run from CI or the release directory with a committed composer.lock file.</p>
+    <ul class="modal-checklist">
+      <li>Use composer.lock so production installs exactly what was tested.</li>
+      <li>Fail the release if Composer install cannot complete cleanly.</li>
+      <li>Do not run composer update on the production server.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-4">
+  <div class="modal-header">
+    <span>Build Frontend Assets</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Compile Production Assets</h3>
+    <p><strong>Command:</strong></p>
+    <pre>npm ci
+npm run build</pre>
+    <p><strong>Description:</strong> Installs exact Node dependencies from package-lock.json and compiles Vite assets.</p>
+    <p><strong>Why needed:</strong> Production should serve compiled static assets, not run the development Vite server.</p>
+    <p><strong>Note:</strong> Build in CI when possible, then ship the generated public/build assets with the release.</p>
+    <ul class="modal-checklist">
+      <li>Commit package-lock.json for deterministic npm ci builds.</li>
+      <li>Verify public/build exists before switching the release live.</li>
+      <li>Serve compiled assets with long-lived cache headers when safe.</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="info-modal" id="modal-5">
+  <div class="modal-header">
+    <span>Secrets &amp; Environment</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Configure Production Secrets</h3>
+    <p><strong>Command:</strong></p>
+    <pre>Set secrets and APP_KEY</pre>
+    <p><strong>Description:</strong> Set APP_ENV=production, APP_DEBUG=false, APP_KEY, database credentials, cache, queue, mail, and third-party keys through secure server or CI secret storage.</p>
+    <p><strong>Why needed:</strong> Secrets must not be committed to the repo, and production must never expose debug output.</p>
+    <p><strong>Note:</strong> Generate APP_KEY once for the application and preserve it across releases.</p>
+    <ul class="modal-checklist">
+      <li>Set APP_URL, trusted proxy settings, session domain, mail, cache, queue, and filesystem values.</li>
+      <li>Store .env outside the release directory and symlink it into each release.</li>
+      <li>Keep APP_DEBUG=false before any public traffic reaches the app.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-6">
+  <div class="modal-header">
+    <span>Cache Framework Config</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Optimize Laravel Boot</h3>
+    <p><strong>Command:</strong></p>
+    <pre>php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan event:cache</pre>
+    <p><strong>Description:</strong> Caches configuration, routes, views, and events for faster production boot time.</p>
+    <p><strong>Why needed:</strong> Laravel should avoid repeatedly parsing configuration and routes on every request.</p>
+    <p><strong>Note:</strong> Rebuild caches after setting the production .env and before switching the release live.</p>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-7">
+  <div class="modal-header">
+    <span>Quality Gate</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Run Tests and Checks</h3>
+    <p><strong>Commands:</strong></p>
+    <pre>php artisan test
+vendor/bin/pint --test
+vendor/bin/phpstan analyse</pre>
+    <p><strong>Description:</strong> Run automated tests, formatting checks, and static analysis before deployment.</p>
+    <p><strong>Why needed:</strong> A production release should fail before it reaches users, not after.</p>
+    <p><strong>Note:</strong> Put this in CI so every release uses the same checks.</p>
+    <ul class="modal-checklist">
+      <li>Run tests against a clean database or disposable test environment.</li>
+      <li>Block deployment when tests, linting, or static analysis fail.</li>
+      <li>Add smoke tests for login, important pages, and critical API routes.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-8">
+  <div class="modal-header">
+    <span>Database Migrations</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Apply Database Migrations</h3>
+    <p><strong>Command:</strong></p>
+    <pre>php artisan migrate --force</pre>
+    <p><strong>Description:</strong> Applies reviewed database migrations without an interactive prompt.</p>
+    <p><strong>Why needed:</strong> Production deployments must update schema reliably as part of the release.</p>
+    <p><strong>Note:</strong> Back up the database first and design migrations to be safe for live traffic.</p>
+    <ul class="modal-checklist">
+      <li>Take a database backup before destructive or high-risk migrations.</li>
+      <li>Prefer additive migrations for zero-downtime deploys.</li>
+      <li>Separate large data backfills from schema changes when possible.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-9">
+  <div class="modal-header">
+    <span>Serve Traffic</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Run Behind Nginx and PHP-FPM</h3>
+    <p><strong>Command:</strong></p>
+    <pre>Nginx + PHP-FPM live</pre>
+    <p><strong>Description:</strong> Point Nginx to the Laravel public directory and pass PHP requests to PHP-FPM.</p>
+    <p><strong>Why needed:</strong> The local Artisan web server is only for development; production needs a real web server and process manager.</p>
+    <p><strong>Note:</strong> Enable HTTPS, compression, upload limits, security headers, and correct file permissions.</p>
+    <ul class="modal-checklist">
+      <li>Nginx document root should be current/public, never the project root.</li>
+      <li>Only public assets should be web-accessible.</li>
+      <li>Reload Nginx and PHP-FPM after config or release changes.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-10">
+  <div class="modal-header">
+    <span>Workers &amp; Scheduler</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Run Background Work</h3>
+    <p><strong>Command:</strong></p>
+    <pre>php artisan queue:work
+php artisan schedule:run</pre>
+    <p><strong>Description:</strong> Run queue workers with Supervisor or systemd and trigger the scheduler every minute from cron.</p>
+    <p><strong>Why needed:</strong> Emails, jobs, notifications, and scheduled tasks must keep running outside web requests.</p>
+    <p><strong>Note:</strong> Restart workers after each deploy with php artisan queue:restart.</p>
+    <ul class="modal-checklist">
+      <li>Use Supervisor or systemd so queue workers restart after failure.</li>
+      <li>Add one cron entry that runs php artisan schedule:run every minute.</li>
+      <li>Monitor failed_jobs and alert when failures rise.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-11">
+  <div class="modal-header">
+    <span>Observability</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Monitor Production Logs</h3>
+    <p><strong>Command:</strong></p>
+    <pre>Monitor logs</pre>
+    <p><strong>Description:</strong> Watch Laravel logs, web server logs, queue failures, application metrics, and error tracking after release.</p>
+    <p><strong>Why needed:</strong> Production work is not finished until you know the release is healthy under real traffic.</p>
+    <p><strong>Note:</strong> Use tools such as Laravel logs, queue:failed, system logs, uptime checks, and an error tracker.</p>
+    <ul class="modal-checklist">
+      <li>Check storage/logs/laravel.log, Nginx logs, PHP-FPM logs, and worker logs.</li>
+      <li>Track response time, error rate, queue depth, database load, and disk usage.</li>
+      <li>Send exceptions to an external error tracker, not only local log files.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-12">
+  <div class="modal-header">
+    <span>Release Planning</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Plan Release Branch</h3>
+    <p><strong>Command:</strong></p>
+    <pre>Plan release branch</pre>
+    <p><strong>Description:</strong> Choose the tag, branch, or build artifact that is approved for production.</p>
+    <p><strong>Why needed:</strong> A release plan defines what ships, who approved it, what migrations run, and how rollback works.</p>
+    <ul class="modal-checklist">
+      <li>Record release owner, commit SHA, migration risk, and rollback command.</li>
+      <li>Schedule high-risk releases for a low-traffic window.</li>
+      <li>Tell the team when deployment starts and when it is verified.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-13">
+  <div class="modal-header">
+    <span>Rollback Plan</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Prepare Recovery Path</h3>
+    <p><strong>Command:</strong></p>
+    <pre>Rollback plan</pre>
+    <p><strong>Description:</strong> Keep the previous release, database backup, and rollback commands ready before switching traffic.</p>
+    <p><strong>Why needed:</strong> If health checks fail, the team needs a fast, practiced way to return to the last stable version.</p>
+    <ul class="modal-checklist">
+      <li>Keep at least one previous release directory available.</li>
+      <li>Know whether database migrations are reversible before deployment.</li>
+      <li>After rollback, restart workers and rebuild caches for the active release.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-14">
+  <div class="modal-header">
+    <span>Health Checks</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Validate Live Application</h3>
+    <p><strong>Command:</strong></p>
+    <pre>Health checks</pre>
+    <p><strong>Description:</strong> Check homepage, login, critical APIs, database connectivity, queues, scheduler, and external services.</p>
+    <p><strong>Why needed:</strong> Passing deployment commands is not the same as proving the system works for users.</p>
+    <p><strong>Note:</strong> Automate these checks and run them immediately after switching the release live.</p>
+    <ul class="modal-checklist">
+      <li>Verify HTTP 200 for public and authenticated critical paths.</li>
+      <li>Confirm queues process jobs and scheduler tasks are not failing.</li>
+      <li>Check logs for new exceptions during the first minutes after release.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-15">
+  <div class="modal-header">
+    <span>Zero-Downtime Release</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Switch Current Symlink</h3>
+    <p><strong>Command:</strong></p>
+    <pre>Zero-downtime release</pre>
+    <p><strong>Description:</strong> Build each release in its own directory, share storage/.env, then atomically point current to the new release.</p>
+    <p><strong>Why needed:</strong> Users should not see half-copied files or downtime while the application is being deployed.</p>
+    <ul class="modal-checklist">
+      <li>Prepare the new release completely before changing the current symlink.</li>
+      <li>Use maintenance mode only when a migration cannot be done live.</li>
+      <li>Restart PHP-FPM/opcache and queue workers after the switch.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-16">
+  <div class="modal-header">
+    <span>Release Directory</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Work Inside Release</h3>
+    <p><strong>Command:</strong></p>
+    <pre>cd release</pre>
+    <p><strong>Description:</strong> Run install, build, cache, and migration commands from the prepared release directory.</p>
+    <p><strong>Why needed:</strong> Keeps the active production version untouched until the new release is fully ready.</p>
+    <p><strong>Note:</strong> Shared directories usually include storage and the production .env file.</p>
+    <ul class="modal-checklist">
+      <li>Symlink storage so uploaded files and logs survive releases.</li>
+      <li>Symlink .env from a protected shared location.</li>
+      <li>Run artisan commands from the release that is about to go live.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-17">
+  <div class="modal-header">
+    <span>Repeatable Frontend Build</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Step: Rebuild Assets If Needed</h3>
+    <p><strong>Command:</strong></p>
+    <pre>npm ci
+npm run build</pre>
+    <p><strong>Description:</strong> Recreate frontend assets exactly from the lockfile when the release includes frontend changes.</p>
+    <p><strong>Why needed:</strong> Production assets must be deterministic and match the backend code being released.</p>
+    <p><strong>Note:</strong> Prefer CI-built assets for faster and cleaner server deployments.</p>
+    <ul class="modal-checklist">
+      <li>Keep Node version consistent between CI and production builds.</li>
+      <li>Clear stale assets only after the new build is available.</li>
+      <li>Confirm the manifest file exists if the app uses Vite.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-modal" id="modal-18">
+  <div class="modal-header">
+    <span>Laravel Production Docs</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modal-body">
+    <h3>Production Documentation</h3>
+    <div class="tutorial-links">
+      <a class="tutorial-link" href="https://laravel.com/docs/12.x/deployment" target="_blank" rel="noopener noreferrer">Deployment</a>
+      <a class="tutorial-link" href="https://laravel.com/docs/12.x/configuration" target="_blank" rel="noopener noreferrer">Configuration</a>
+      <a class="tutorial-link" href="https://laravel.com/docs/12.x/cache" target="_blank" rel="noopener noreferrer">Cache</a>
+      <a class="tutorial-link" href="https://laravel.com/docs/12.x/queues" target="_blank" rel="noopener noreferrer">Queues</a>
+      <a class="tutorial-link" href="https://laravel.com/docs/12.x/scheduling" target="_blank" rel="noopener noreferrer">Scheduling</a>
+      <a class="tutorial-link" href="https://laravel.com/docs/12.x/migrations" target="_blank" rel="noopener noreferrer">Migrations</a>
+      <a class="tutorial-link" href="https://laravel.com/docs/12.x/testing" target="_blank" rel="noopener noreferrer">Testing</a>
+      <a class="tutorial-link" href="https://laravel.com/docs/12.x/octane" target="_blank" rel="noopener noreferrer">Octane</a>
+      <a class="tutorial-link" href="https://laravel.com/docs/12.x/logging" target="_blank" rel="noopener noreferrer">Logging</a>
+      <a class="tutorial-link" href="https://laravel.com/docs/12.x/filesystem" target="_blank" rel="noopener noreferrer">Filesystem</a>
+    </div>
+    <h3>Production Readiness Checklist</h3>
+    <ul class="modal-checklist">
+      <li>CI passes tests, linting, static analysis, and asset build.</li>
+      <li>APP_ENV=production, APP_DEBUG=false, APP_KEY preserved, and secrets protected.</li>
+      <li>Database backup exists before migrations run.</li>
+      <li>Queues, scheduler, cache, storage links, and file permissions are configured.</li>
+      <li>Health checks, logs, metrics, alerts, and rollback path are ready before release.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+const elementDescriptions = {
+  'ZuYxcWRNr98eA5IfTEoE-2': 'modal-18',
+  'ZuYxcWRNr98eA5IfTEoE-1': 'modal-1',
+  'ZuYxcWRNr98eA5IfTEoE-7': 'modal-2',
+  'ZuYxcWRNr98eA5IfTEoE-9': 'modal-3',
+  'ZuYxcWRNr98eA5IfTEoE-11': 'modal-4',
+  'ZuYxcWRNr98eA5IfTEoE-13': 'modal-5',
+  'ZuYxcWRNr98eA5IfTEoE-15': 'modal-6',
+  'ZuYxcWRNr98eA5IfTEoE-17': 'modal-7',
+  'ZuYxcWRNr98eA5IfTEoE-19': 'modal-8',
+  'ZuYxcWRNr98eA5IfTEoE-28': 'modal-9',
+  'ZuYxcWRNr98eA5IfTEoE-33': 'modal-10',
+  'ZuYxcWRNr98eA5IfTEoE-41': 'modal-11',
+  'ZuYxcWRNr98eA5IfTEoE-26': 'modal-12',
+  'ZuYxcWRNr98eA5IfTEoE-35': 'modal-13',
+  'ZuYxcWRNr98eA5IfTEoE-39': 'modal-14',
+  'ZuYxcWRNr98eA5IfTEoE-43': 'modal-15',
+  'ZuYxcWRNr98eA5IfTEoE-47': 'modal-16',
+  'ZuYxcWRNr98eA5IfTEoE-49': 'modal-17'
+};
+
+const elementCoordinates = {
+  'ZuYxcWRNr98eA5IfTEoE-2': { x: 340, y: 43, w: 100, h: 100 },
+  'ZuYxcWRNr98eA5IfTEoE-1': { x: 229, y: 224, w: 320, h: 90 },
+  'ZuYxcWRNr98eA5IfTEoE-7': { x: 300, y: 373, w: 180, h: 90 },
+  'ZuYxcWRNr98eA5IfTEoE-9': { x: 310, y: 531, w: 160, h: 85 },
+  'ZuYxcWRNr98eA5IfTEoE-11': { x: 310, y: 673, w: 240, h: 85 },
+  'ZuYxcWRNr98eA5IfTEoE-13': { x: 330, y: 813, w: 120, h: 60 },
+  'ZuYxcWRNr98eA5IfTEoE-15': { x: 305, y: 953, w: 170, h: 60 },
+  'ZuYxcWRNr98eA5IfTEoE-17': { x: 285, y: 1083, w: 210, h: 100 },
+  'ZuYxcWRNr98eA5IfTEoE-19': { x: 285, y: 1263, w: 195, h: 100 },
+  'ZuYxcWRNr98eA5IfTEoE-28': { x: 275, y: 1443, w: 215, h: 60 },
+  'ZuYxcWRNr98eA5IfTEoE-33': { x: 263.75, y: 1583, w: 237.5, h: 60 },
+  'ZuYxcWRNr98eA5IfTEoE-41': { x: 605, y: 1353, w: 160, h: 60 },
+  'ZuYxcWRNr98eA5IfTEoE-26': { x: 60, y: 388, w: 150, h: 60 },
+  'ZuYxcWRNr98eA5IfTEoE-35': { x: 580, y: 1583, w: 180, h: 60 },
+  'ZuYxcWRNr98eA5IfTEoE-39': { x: 590, y: 1493, w: 160, h: 60 },
+  'ZuYxcWRNr98eA5IfTEoE-43': { x: 600, y: 1183, w: 170, h: 85 },
+  'ZuYxcWRNr98eA5IfTEoE-47': { x: 600, y: 1013, w: 170, h: 85 },
+  'ZuYxcWRNr98eA5IfTEoE-49': { x: 590, y: 893, w: 190, h: 85 }
+};
+
+function openModal(elementId) {
+  const modalId = elementDescriptions[elementId];
+  if (modalId) {
+    document.getElementById('modalOverlay').classList.add('active');
+    document.getElementById(modalId).classList.add('active');
+  }
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.querySelectorAll('.info-modal').forEach(modal => {
+    modal.classList.remove('active');
+  });
+}
+
+// Close modal when clicking overlay
+document.getElementById('modalOverlay').addEventListener('click', closeModal);
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    closeModal();
+  }
+});
+
+// Create clickable overlays after a timeout
+function createClickableOverlays() {
+  const container = document.getElementById('diagram-container');
+  
+  if (!container) {
+    setTimeout(createClickableOverlays, 500);
+    return;
+  }
+
+  // Get the mxgraph div
+  const mxgraphDiv = container.querySelector('.mxgraph');
+  if (!mxgraphDiv || mxgraphDiv.offsetHeight === 0) {
+    setTimeout(createClickableOverlays, 500);
+    return;
+  }
+  
+  // Remove any existing overlays first
+  const existingOverlays = container.querySelectorAll('.click-overlay');
+  existingOverlays.forEach(overlay => overlay.remove());
+  
+  // Create clickable regions for each element
+  Object.keys(elementCoordinates).forEach(elementId => {
+    const coords = elementCoordinates[elementId];
+    
+    const clickable = document.createElement('div');
+    clickable.className = 'click-overlay';
+    clickable.style.position = 'absolute';
+    clickable.style.left = coords.x + 'px';
+    clickable.style.top = coords.y + 'px';
+    clickable.style.width = coords.w + 'px';
+    clickable.style.height = coords.h + 'px';
+    clickable.style.pointerEvents = 'auto';
+    clickable.style.zIndex = '100';
+    clickable.setAttribute('data-element-id', elementId);
+    clickable.setAttribute('title', 'Click for more information');
+    
+    clickable.addEventListener('click', function(e) {
+      e.stopPropagation();
+      openModal(elementId);
+    });
+    
+    container.appendChild(clickable);
+  });
+}
+
+// Start creating overlays after draw.io loads
+setTimeout(createClickableOverlays, 1500);
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+</body></html>
